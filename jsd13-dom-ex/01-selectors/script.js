@@ -31,9 +31,10 @@ console.log(document.querySelectorAll(".fruit").length);
 // TODO 5: Loop over the fruit elements (.forEach) and console.log() each
 // one's textContent.
 // console.log(document.querySelectorAll(".fruit")[1].textContent);
-document.querySelectorAll(".fruit").forEach(function (fruit) {
+const fruits = document.querySelectorAll(".fruit");
+fruits.forEach((fruit) => {
     console.log(fruit.textContent);
-});
+})
 
 
 // TODO 6: Select the single element with the attribute data-fresh="false"

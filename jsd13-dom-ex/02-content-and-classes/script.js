@@ -13,7 +13,7 @@ console.log(document.getElementById("heading").textContent); // หลังเ�
 // paragraph should read: I am <strong>learning</strong> the DOM.
 console.log(document.getElementById("bio").textContent); // ก่อนเปลี่ยน
 
-const pBio = document.getElementById("bio").innerHTML = "I am <strong>learning</strong>";
+const pBio = document.getElementById("bio").innerHTML = "I am <strong>Groot</strong>";
 
 console.log(document.getElementById("bio").textContent); // หลังเปลี่ยน
 
@@ -32,12 +32,15 @@ console.log(cardHighlight.className);
 // TODO 5: #card starts with a data-visits="0" attribute. Read the current
 // value with card.dataset.visits, convert it to a number, add 1, write it
 // back to card.dataset.visits, and console.log() the new value.
-let dataVisit = card.dataset.visits;
-let numVisit = Number(dataVisit); // แปลงเป็น number
-let addOne = numVisit + 1;
-card.dataset.visits = addOne;
-console.log(card.dataset.visits);
+// let dataVisit = card.dataset.visits;
+// let numVisit = Number(dataVisit); // แปลงเป็น number
+// numVisit += 1;
+// card.dataset.visits = addOne;
+// console.log(card.dataset.visits);
 
-addOne = numVisit + 5;
-card.dataset.visits = addOne;
-console.log(card.dataset.visits);
+card.dataset.visits = Number(card.dataset.visits) + 1;
+console.log(card.dataset.visits)
+
+// addOne = numVisit + 5;
+// card.dataset.visits = addOne;
+// console.log(card.dataset.visits);
