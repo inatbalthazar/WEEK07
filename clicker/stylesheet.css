@@ -1,0 +1,948 @@
+/* ==========================================================================
+   การท่า 67 Clicker - Full Stylesheet (ไฟล์สำหรับจัดการความสวยงามทั้งหมด)
+   ========================================================================== */
+
+/* ─── ตัวแปร CSS (CSS Variables) ───
+   เก็บค่าสีและฟอนต์ไว้ในตัวแปรเพื่อให้เรียกใช้ซ้ำได้ง่าย และเปลี่ยนสีทั้งเว็บได้รวดเร็ว */
+:root {
+    --primary: #7c3aed; /* สีหลักของเว็บ (ม่วง) */
+    --primary-light: #a78bfa; /* สีหลักแบบอ่อน (ม่วงอ่อน) */
+    --primary-glow: rgba(124, 58, 237, 0.4); /* สีเรืองแสง (ม่วงโปร่งใส 40%) */
+    --accent: #f59e0b; /* สีเน้นหรือสีรอง (ส้มเหลือง) */
+    --accent-glow: rgba(245, 158, 11, 0.4); /* สีเน้นเรืองแสง (ส้มเหลืองโปร่งใส) */
+    --success: #10b981; /* สีเขียว สำหรับสิ่งที่ทำสำเร็จหรือซื้อได้ */
+    --danger: #ef4444; /* สีแดง สำหรับการยกเลิกหรือลบ */
+    --bg-dark: #0f0a1f; /* สีพื้นหลังหลักของเว็บ (น้ำเงินเข้มเกือบดำ) */
+    --bg-card: rgba(255, 255, 255, 0.06); /* สีพื้นหลังของกล่องต่างๆ (ขาวโปร่งใส 6%) */
+    --bg-card-hover: rgba(255, 255, 255, 0.1); /* สีกล่องตอนเอาเมาส์ชี้ (ขาวโปร่งใส 10%) */
+    --border: rgba(255, 255, 255, 0.1); /* สีเส้นขอบ (ขาวโปร่งใส 10%) */
+    --text: #f1f5f9; /* สีตัวอักษรหลัก (ขาวอมฟ้า) */
+    --text-muted: #94a3b8; /* สีตัวอักษรที่รองลงมา (เทาอ่อน) */
+    --font-heading: 'Kanit', sans-serif; /* ฟอนต์สำหรับหัวข้อ (Kanit) */
+    --font-body: 'Prompt', sans-serif; /* ฟอนต์สำหรับเนื้อหาทั่วไป (Prompt) */
+    --radius: 16px; /* ความโค้งมนมาตรฐานของกล่องในเว็บนี้ */
+}
+
+/* ─── Reset CSS ───
+   ล้างค่าเริ่มต้นที่เบราว์เซอร์ตั้งมาให้ เพื่อให้หน้าเว็บแสดงผลเหมือนกันทุกเบราว์เซอร์ */
+*, *::before, *::after {
+    box-sizing: border-box; /* บังคับให้ขนาดกล่องรวมเส้นขอบและช่องว่างแล้ว (ไม่ขยายบานปลาย) */
+    margin: 0; /* ลบระยะห่างด้านนอก */
+    padding: 0; /* ลบระยะห่างด้านใน */
+}
+
+/* ─── ตั้งค่าพื้นฐานของหน้าเว็บ (Body) ─── */
+body {
+    font-family: var(--font-body); /* ใช้ฟอนต์ Prompt */
+    background: var(--bg-dark); /* พื้นหลังสีเข้ม */
+    /* วาดวงกลมเรืองแสงเป็นพื้นหลัง 2 จุด (บนซ้ายสีม่วง, ล่างขวาสีส้ม) */
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+    color: var(--text); /* ตัวอักษรสีขาว */
+    min-height: 100vh; /* บังคับให้ความสูงอย่างน้อยเท่ากับความสูงจอ */
+    overflow-x: hidden; /* ซ่อนแถบเลื่อนแนวนอน (ห้ามเลื่อนซ้ายขวา) */
+    user-select: none; /* ห้ามผู้เล่นคลุมดำตัวหนังสือ (กันรำคาญตอนคลิกรัวๆ) */
+    position: relative; /* เพื่อให้องค์ประกอบลูกอ้างอิงตำแหน่งได้ */
+}
+
+/* ─── เม็ดสีลอยไปมาด้านหลัง (Background Particles) ─── */
+.bg-particles {
+    position: fixed; /* ตรึงติดหน้าจอเสมอ */
+    inset: 0; /* กินพื้นที่เต็มจอ (top, right, bottom, left = 0) */
+    pointer-events: none; /* ห้ามให้เมาส์กดโดนเม็ดสีพวกนี้ได้ ทะลุผ่านไปเลย */
+    z-index: 0; /* ให้อยู่ชั้นล่างสุด */
+    overflow: hidden; /* ถ้าเม็ดสีลอยหลุดจอไปให้ซ่อนไว้ */
+}
+
+.bg-particle {
+    position: absolute; /* ลอยอิสระอยู่ใน bg-particles */
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    opacity: 0.3; /* โปร่งใส 70% (เห็น 30%) */
+    animation: floatParticle linear infinite; /* เล่นแอนิเมชันลอยขึ้นไปเรื่อยๆ ไม่มีวันจบ */
+}
+
+/* คีย์เฟรมแอนิเมชันสำหรับให้เม็ดสีลอยขึ้น */
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; } /* เริ่มจากใต้จอ ขนาด 0 มองไม่เห็น */
+    10% { opacity: 0.3; } /* โผล่ขึ้นมาค่อยๆ สว่าง */
+    90% { opacity: 0.3; } /* ลอยไปเรื่อยๆ */
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; } /* หลุดขอบบนจอไปแล้วจางหายไป */
+}
+
+/* ─── กล่องคุมเนื้อหาทั้งหมด (Game Container) ─── */
+.game-container {
+    max-width: 1320px; /* จำกัดความกว้างสุดที่ 1320px (จอใหญ่แค่ไหนก็ไม่กว้างกว่านี้) */
+    margin: 0 auto; /* จัดให้อยู่กึ่งกลางหน้าจอแนวนอน */
+    padding: 16px 20px; /* เว้นระยะขอบจอ (บนล่าง 16px, ซ้ายขวา 20px) */
+    display: flex; /* จัดเรียงองค์ประกอบภายในด้วย Flexbox */
+    flex-direction: column; /* เรียงจากบนลงล่าง (Header, Main) */
+    gap: 18px; /* เว้นช่องไฟระหว่างแต่ละส่วน 18px */
+    position: relative;
+    z-index: 2; /* ให้อยู่เหนือเม็ดสีและวิดีโอพื้นหลัง */
+    min-height: 100vh; /* สูงเต็มจอ */
+}
+
+/* ─── แถบด้านบนสุด (Header) ─── */
+.game-header {
+    display: flex; /* จัดเรียงแบบ Flexbox */
+    justify-content: space-between; /* ผลักกล่องซ้าย-ขวา ให้อยู่ห่างกันสุดขอบ */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวตั้ง */
+    background: rgba(0, 0, 0, 0.4); /* พื้นหลังสีดำโปร่งใส 40% */
+    backdrop-filter: blur(20px); /* ทำให้พื้นหลังเบลอ (ทำเอฟเฟกต์แผ่นกระจก) */
+    border: 1px solid var(--border); /* ขอบสีขาวบางๆ */
+    padding: 14px 24px; /* ระยะห่างข้างในกล่อง */
+    border-radius: var(--radius); /* ขอบโค้งมน */
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3); /* เงาสีดำฟุ้งๆ */
+}
+
+/* ฝั่งซ้ายของแถบด้านบน (โลโก้, เลเวล) */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* เว้นระยะห่างระหว่างชิ้น 16px */
+}
+
+/* ชื่อเกม "การท่า 67 Clicker" */
+.game-title {
+    font-family: var(--font-heading); /* ใช้ฟอนต์หัวข้อ */
+    font-size: 2rem; /* ขนาดตัวอักษรใหญ่ */
+    font-weight: 900; /* หนาสุด */
+    background: linear-gradient(135deg, #7c3aed, #f59e0b, #ec4899); /* สีไล่เฉด ม่วง-ส้ม-ชมพู */
+    background-size: 200% 200%; /* ขยายสีพื้นหลังให้ใหญ่ขึ้น เพื่อทำแอนิเมชันขยับสี */
+    animation: gradientShift 3s ease infinite; /* แอนิเมชันขยับสีไปมา 3 วินาที */
+    -webkit-background-clip: text; /* ทำให้สีพื้นหลังแสดงเฉพาะตรงที่เป็นตัวหนังสือ */
+    -webkit-text-fill-color: transparent; /* ทำให้เนื้อตัวหนังสือโปร่งใส เพื่อเผยให้เห็นสีไล่เฉดด้านหลัง */
+}
+
+/* แอนิเมชันขยับสีพื้นหลังไปมา */
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; } /* เริ่มต้นและจบที่ฝั่งซ้าย */
+    50% { background-position: 100% 50%; } /* ตรงกลางเวลาให้ย้ายไปฝั่งขวา */
+}
+
+/* ป้องกันไม่ให้อิโมจิในหัวเรื่องโปร่งใสตามตัวหนังสือ (ไม่งั้นจะมองไม่เห็น) */
+.title-emoji {
+    -webkit-text-fill-color: initial;
+}
+
+/* ป้ายบอกเลเวลปัจจุบัน (มุมบนซ้ายข้างๆ ชื่อเกม) */
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(124, 58, 237, 0.25); /* พื้นหลังสีม่วงใส */
+    border: 1px solid rgba(124, 58, 237, 0.5); /* ขอบสีม่วงทึบขึ้นมาหน่อย */
+    padding: 5px 14px;
+    border-radius: 20px; /* โค้งเป็นแคปซูลยา */
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent); /* ตัวอักษรสีส้ม */
+}
+
+/* ฝั่งขวาของแถบด้านบน (ปุ่มตั้งค่าต่างๆ) */
+.header-right {
+    display: flex;
+    gap: 10px; /* เว้นช่องไฟระหว่างปุ่ม */
+}
+
+/* สไตล์พื้นฐานสำหรับปุ่มบน Header (ลำโพง, รีเซ็ต) */
+.header-btn {
+    background: var(--bg-card); /* พื้นหลังขาวใส */
+    border: 1px solid var(--border); /* เส้นขอบบางๆ */
+    color: var(--text); /* ไอคอนสีขาว */
+    width: 44px; /* กว้าง 44px (สี่เหลี่ยมจัตุรัส) */
+    height: 44px;
+    border-radius: 12px; /* ขอบโค้งนิดๆ */
+    display: flex; /* จัดให้อยู่ตรงกลาง */
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer; /* เมาส์เป็นรูปนิ้วตอนชี้ */
+    transition: all 0.2s ease; /* เวลามีการเปลี่ยนแปลง (เช่น เอาเมาส์ชี้) ให้ค่อยๆ เปลี่ยนใน 0.2 วินาที */
+}
+
+.header-btn:hover {
+    background: var(--bg-card-hover); /* ขาวสว่างขึ้นตอนชี้ */
+    transform: translateY(-2px); /* ลอยขึ้นมานิดนึง 2px */
+}
+
+/* ปุ่มอันตราย (รีเซ็ต) */
+.header-btn.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.25); /* พื้นหลังแดงใส */
+    border-color: var(--danger); /* ขอบแดงเข้ม */
+}
+
+/* ─── แถบคะแนนด้านบน (Score Bar) ─── */
+.score-bar {
+    display: grid; /* ใช้ Grid ในการจัดเรียงกล่องคะแนน */
+    /* แบ่งคอลัมน์อัตโนมัติ กว้างอย่างน้อย 220px ถ้ามีที่เหลือก็ขยายให้เต็ม (1fr) */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; /* เว้นระยะห่างระหว่างกล่องคะแนน */
+}
+
+/* สไตล์พื้นฐานของการ์ดคะแนนแต่ละใบ */
+.score-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px); /* พื้นหลังเบลอ 12px */
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    display: flex; /* จัดเรียงไอคอนกับตัวหนังสือแนวนอน */
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15); /* เงาดำบางๆ */
+}
+
+/* การ์ดคะแนนหลัก (ที่ใช้ซื้อของ) จะมีสีพิเศษเด่นกว่าเพื่อน */
+.score-card.score-main {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(245, 158, 11, 0.15)); /* สีไล่เฉด ม่วงไปส้มแบบโปร่งใส */
+    border-color: rgba(124, 58, 237, 0.4); /* ขอบสีม่วงทึบ */
+    box-shadow: 0 0 24px var(--primary-glow); /* เงาฟุ้งสีม่วง */
+}
+
+/* ไอคอนในการ์ดคะแนน */
+.score-icon {
+    font-size: 2rem; /* ขนาดไอคอนใหญ่ขึ้น */
+}
+
+/* กล่องตัวหนังสือในการ์ดคะแนน */
+.score-info {
+    display: flex;
+    flex-direction: column; /* ให้ข้อความเรียงบนล่าง */
+}
+
+/* ป้ายบอกประเภทคะแนน (เช่น "คะแนนทั้งหมด") */
+.score-label {
+    font-size: 0.8rem;
+    color: var(--text-muted); /* สีเทาอ่อน */
+}
+
+/* ตัวเลขคะแนน */
+.score-value {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800; /* หนามาก */
+    color: var(--accent); /* สีส้ม */
+}
+
+/* ─── พื้นที่หลักของเกม (Main Content) ─── */
+.main-content {
+    display: grid; /* แบ่งหน้าจอซ้าย-ขวาด้วย Grid */
+    grid-template-columns: 1.2fr 1fr; /* สัดส่วน ฝั่งซ้าย 1.2 ส่วน ฝั่งขวา 1 ส่วน (ซ้ายกว้างกว่านิดหน่อย) */
+    gap: 22px; /* ระยะห่างระหว่างฝั่งซ้ายและขวา */
+    flex: 1; /* ขยายให้เต็มพื้นที่ที่เหลือในหน้าจอ */
+}
+
+/* ถ้าหน้าจอเล็กกว่า 900px (เช่น มือถือหรือแท็บเล็ตแนวตั้ง) */
+@media (max-width: 900px) {
+    .main-content {
+        grid-template-columns: 1fr; /* ให้เปลี่ยนมาเรียงแบบ 1 คอลัมน์ (บน-ล่าง) แทน */
+    }
+}
+
+/* ─── ฝั่งซ้าย (Clicker Area) ─── */
+.clicker-area {
+    display: flex;
+    flex-direction: column; /* เรียงจากบนลงล่าง (เวที, หลอดความคืบหน้า) */
+    gap: 16px;
+}
+
+/* เวทีมือท่า 67 (พื้นที่ที่ให้คลิก) */
+.hands-stage {
+    width: 100%;
+    min-height: 420px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    display: flex;
+    align-items: center; /* จัดให้อยู่กึ่งกลางหน้าจอเวทีแนวตั้ง */
+    justify-content: center; /* จัดให้อยู่กึ่งกลางหน้าจอเวทีแนวนอน */
+    position: relative; /* สำคัญมาก เพื่อให้ตัวเลขลอย (absolute) อิงจากจุดนี้ */
+    overflow: hidden; /* ถ้าวิดีโอหรือแอนิเมชันล้นกรอบ ให้ตัดทิ้ง */
+    box-shadow: 0 0 40px var(--primary-glow);
+    padding: 30px;
+    flex-direction: column;
+    gap: 20px;
+    cursor: pointer; /* เอาเมาส์ชี้แล้วเป็นรูปนิ้ว */
+}
+
+/* เวลาคลิกเมาส์ค้างไว้ที่เวที จะทำเงามืดขึ้น */
+.hands-stage:active {
+    box-shadow: 0 0 60px var(--accent-glow); /* เงาฟุ้งเปลี่ยนเป็นสีส้ม */
+}
+
+/* วิดีโอพื้นหลังที่ซ้อนอยู่หลังเวที (สำหรับเล่น Meme) */
+.bg-meme-video {
+    position: absolute;
+    inset: 0; /* ขนาดเท่าเวทีเป๊ะ */
+    z-index: 0; /* อยู่ล่างสุด */
+    border-radius: 24px;
+    overflow: hidden;
+    pointer-events: none; /* ห้ามคลิกโดนวิดีโอ ให้คลิกทะลุไปที่เวที */
+}
+
+/* แผ่นฟิล์มสีดำคลุมทับวิดีโอ (เพื่อให้วิดีโอมืดลง จะได้เห็นมือชัดๆ) */
+.bg-meme-video::after {
+    content: ''; /* ต้องมี content เปล่าๆ ไม่งั้นแสดงผลไม่ได้ */
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 10, 31, 0.45); /* สีน้ำเงินดำโปร่งใส 45% */
+    z-index: 1; /* วางทับวิดีโอ */
+}
+
+/* แท็ก iframe/video ของจริง */
+.bg-meme-video iframe,
+.bg-meme-video video {
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: cover; /* ขยายให้เต็มพื้นที่โดยไม่เสียสัดส่วน (ส่วนเกินจะถูกตัด) */
+    transform: scale(1.15); /* ขยายใหญ่ขึ้น 15% เพื่อซ่อนขอบดำหรือลายน้ำบางส่วน */
+}
+
+/* ยกของที่เหลือให้ลอยขึ้นมาเหนือแผ่นฟิล์มสีดำ */
+.floating-container { z-index: 20; }
+.hand-wrapper { z-index: 10; }
+.btn-click-67 { z-index: 15; }
+
+/* ─── กล่องใส่มือซ้าย/ขวา ─── */
+.hand-wrapper {
+    position: absolute; /* จัดตำแหน่งอิสระ */
+    width: 140px; /* ขนาดความกว้างมือ */
+    height: 140px; /* ขนาดความสูงมือ (1:1) */
+    /* การตั้งค่าเวลาแอนิเมชันเวลามือขยับ (ใช้ cubic-bezier ให้ดูเด้งๆ เป็นธรรมชาติ) */
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ตำแหน่งตั้งต้นของมือซ้าย */
+.hand-left {
+    left: 15%; /* ห่างจากขอบซ้าย 15% */
+    bottom: 35%; /* ห่างจากขอบล่าง 35% */
+    transform: translateY(0px) rotate(-10deg); /* เอียงซ้าย 10 องศา */
+}
+
+/* ตำแหน่งตั้งต้นของมือขวา */
+.hand-right {
+    right: 15%; /* ห่างจากขอบขวา 15% */
+    bottom: 35%; /* ห่างจากขอบล่าง 35% */
+    transform: translateY(0px) rotate(10deg); /* เอียงขวา 10 องศา */
+}
+
+/* ─── แอนิเมชันตอนยกมือ (สลับคลาส raised ด้วย JavaScript) ─── */
+.hand-left.raised {
+    /* ยกขึ้น 60px, เอียงมากขึ้นเป็น 15 องศา, และขยายใหญ่ขึ้น 10% (1.1) */
+    transform: translateY(-60px) rotate(-15deg) scale(1.1);
+}
+
+.hand-right.raised {
+    /* ยกขึ้น 60px, เอียงมากขึ้นเป็น 15 องศา, และขยายใหญ่ขึ้น 10% (1.1) */
+    transform: translateY(-60px) rotate(15deg) scale(1.1);
+}
+
+/* กล่องย่อยที่ใส่รูปภาพมือจริงๆ */
+.hand-img-box {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px; /* มุมโค้ง 20px */
+    overflow: hidden; /* ถ้ารูปเกินกล่องให้ตัดทิ้ง */
+    background: rgba(255, 255, 255, 0.08); /* พื้นหลังขาวใสๆ เผื่อไม่มีรูป */
+    border: 2px solid var(--border); /* ขอบกล่อง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); /* เงาใต้กล่องมือ */
+    aspect-ratio: 1/1; /* บังคับให้เป็นสี่เหลี่ยมจัตุรัสเสมอ */
+}
+
+/* แท็ก img ของรูปมือ */
+.hand-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ขยายให้เต็มกล่องแบบไม่เสียสัดส่วน */
+    display: block;
+}
+
+/* ถ้ายังไม่ได้ใส่รูปลิงก์ใน HTML (src ว่างเปล่า) ให้ซ่อนแท็ก img ไปเลย */
+.hand-img[src=""],
+.hand-img:not([src]) {
+    display: none;
+}
+
+/* และถ้าไม่มีรูป ให้แสดงกล่อง placeholder ที่เป็นอิโมจิแทน */
+.hand-img[src=""]+.hand-placeholder,
+.hand-img:not([src])+.hand-placeholder {
+    display: flex; /* เปิดการแสดงผลของ placeholder */
+}
+
+/* สไตล์ของกล่องอิโมจิมือแทนรูป (Placeholder) */
+.hand-placeholder {
+    display: none; /* ซ่อนไว้ก่อนเป็นค่าเริ่มต้น */
+    font-size: 4rem; /* ขนาดอิโมจิใหญ่ 4rem */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    /* พื้นหลังไล่เฉดสีม่วงส้ม */
+    background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(245,158,11,0.15));
+}
+
+/* จัดการกรณีที่รูปภาพว่างเปล่าแบบใหม่ซ้อนกัน (เผื่อไว้) */
+.hand-img-box:has(.hand-img[src=""]) .hand-placeholder,
+.hand-img-box:has(.hand-img:not([src])) .hand-placeholder {
+    display: flex;
+}
+
+/* ─── ปุ่มคลิกกลางจอ (Click Button) ─── */
+.btn-click-67 {
+    position: relative;
+    z-index: 10; /* ให้อยู่เหนือวิดีโอ */
+    background: linear-gradient(135deg, #7c3aed, #ec4899); /* สีไล่เฉด ม่วง-ชมพู */
+    color: white; /* ตัวหนังสือสีขาว */
+    border: none;
+    padding: 18px 42px; /* ขนาดปุ่ม */
+    border-radius: 50px; /* ทำให้ปุ่มโค้งมนเหมือนแคปซูล */
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 800; /* ตัวหนามาก */
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5); /* เงาฟุ้งสีม่วงใต้ปุ่ม */
+    transition: all 0.15s ease; /* เวลากดหรือเอาเมาส์ชี้จะค่อยๆ เปลี่ยน */
+    margin-top: auto; /* ดันปุ่มลงไปชิดขอบล่างของกล่องแม่ */
+}
+
+/* เมื่อเอาเมาส์ชี้ปุ่ม */
+.btn-click-67:hover {
+    transform: translateY(-3px) scale(1.04); /* ลอยขึ้นและขยายใหญ่ขึ้นนิดนึง */
+    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.6); /* เงาเข้มและฟุ้งขึ้น */
+}
+
+/* เมื่อคลิกเมาส์ค้างที่ปุ่ม (กดลงไป) */
+.btn-click-67:active {
+    transform: translateY(2px) scale(0.97); /* ปุ่มยุบลงไปและหดเล็กลง (ให้ความรู้สึกเหมือนกดปุ่มจริง) */
+}
+
+/* ─── ตัวเลขลอย (Floating Text) ─── */
+.floating-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* ห้ามให้เมาส์กดโดนตัวเลขลอย */
+    z-index: 20; /* อยู่ชั้นบนสุด */
+}
+
+/* สไตล์ของตัวเลข (+1) ที่ลอยขึ้นมา */
+.float-text {
+    position: absolute;
+    font-family: var(--font-heading);
+    font-weight: 900; /* หนาสุดๆ */
+    font-size: 1.6rem;
+    color: var(--accent); /* สีส้ม */
+    /* ทำขอบดำๆ และเรืองแสงสีม่วง ให้ตัวหนังสืออ่านง่ายขึ้นเวลามีพื้นหลังลายๆ */
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7), 0 0 12px var(--primary);
+    /* เรียกใช้แอนิเมชันให้ลอยขึ้น */
+    animation: floatUp 0.7s forwards cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    pointer-events: none;
+}
+
+/* คีย์เฟรมของตัวเลขลอย */
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(0.7); } /* โผล่มาเล็กๆ */
+    40% { transform: translateY(-30px) scale(1.3); } /* ขยายใหญ่และเด้งขึ้น */
+    100% { opacity: 0; transform: translateY(-70px) scale(1); } /* ลอยขึ้นไปอีกและจางหายไป */
+}
+
+/* ─── กล่องหลอดความคืบหน้า (Progress Box) ─── */
+.progress-box {
+    background: rgba(0, 0, 0, 0.35); /* ดำโปร่งใส */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* เว้นระยะห่างในกล่องบรรทัดละ 8px */
+}
+
+/* ส่วนหัวของกล่องความคืบหน้า (มีตัวหนังสือซ้ายขวา) */
+.progress-header {
+    display: flex;
+    justify-content: space-between; /* แยกคำว่า Next Unlock ไว้ซ้าย, คะแนนเป้าหมายไว้ขวา */
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* คำว่า Next Unlock (สีม่วงอ่อน) */
+.progress-title {
+    color: var(--primary-light);
+}
+
+/* คะแนนเป้าหมาย (สีส้ม) */
+.progress-target {
+    color: var(--accent);
+}
+
+/* พื้นหลังของหลอด (สีเทาๆ ดำๆ) */
+.progress-bar-bg {
+    width: 100%;
+    height: 12px; /* ความหนาหลอด */
+    background: rgba(255,255,255,0.08); /* พื้นหลังหลอดเปล่า */
+    border-radius: 8px; /* ขอบโค้ง */
+    overflow: hidden; /* ถ้าสีเติมหลอดล้น ให้ตัดทิ้ง */
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* แถบสีที่วิ่งเติมเต็มในหลอด (สีไล่เฉด) */
+.progress-bar-fill {
+    height: 100%;
+    width: 0%; /* เริ่มต้นที่ 0% (เดี๋ยว JavaScript จะมาเปลี่ยนค่านี้) */
+    background: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b); /* ไล่สีม่วง-ชมพู-ส้ม แนวนอน (90deg) */
+    border-radius: 8px;
+    transition: width 0.2s ease; /* ให้หลอดค่อยๆ วิ่งสมูทๆ เวลาคะแนนขึ้น */
+    box-shadow: 0 0 12px var(--primary-glow); /* แถบสีมีแสงเรืองๆ */
+}
+
+/* คำใบ้ใต้หลอด */
+.progress-hint {
+    font-size: 0.75rem; /* ตัวเล็กมาก */
+    color: var(--text-muted); /* สีเทาอ่อน */
+    text-align: center; /* จัดกึ่งกลาง */
+}
+
+/* ─── แผงด้านขวา (Side Panel: ร้านค้า และ Meme) ─── */
+.side-panel {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+/* ─── แถบปุ่มสลับหน้า (Panel Tabs) ─── */
+.panel-tabs {
+    display: flex;
+    gap: 8px; /* เว้นระยะห่างระหว่างปุ่ม */
+}
+
+/* ปุ่มแท็บ (ร้านค้า หรือ Meme) */
+.panel-tab {
+    flex: 1; /* แบ่งความกว้างให้ปุ่มเท่าๆ กัน (คนละครึ่ง) */
+    background: rgba(255,255,255,0.04);
+    border: 1px solid transparent; /* เส้นขอบโปร่งใส (เพื่อกันปุ่มกระตุกเวลาใส่ขอบทีหลัง) */
+    color: var(--text-muted); /* ตัวหนังสือสีเทา */
+    padding: 10px 8px;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+/* เมื่อเอาเมาส์ชี้ปุ่มแท็บ */
+.panel-tab:hover {
+    background: rgba(255,255,255,0.08); /* สว่างขึ้น */
+    color: var(--text); /* ตัวหนังสือเป็นสีขาว */
+}
+
+/* แท็บที่กำลังถูกเลือกอยู่ */
+.panel-tab.active {
+    background: rgba(124, 58, 237, 0.25); /* พื้นหลังสีม่วงอ่อนๆ */
+    border-color: var(--primary); /* ขอบสีม่วงทึบ */
+    color: var(--accent); /* ตัวหนังสือสีส้ม */
+}
+
+/* เนื้อหาข้างในแท็บ (รายการร้านค้า หรือ รายการ Meme) */
+.tab-content {
+    display: none; /* ซ่อนไว้เป็นค่าเริ่มต้น */
+}
+
+/* เนื้อหาแท็บที่กำลังเปิดอยู่ */
+.tab-content.active {
+    display: block; /* แสดงผลเป็น block */
+}
+
+/* ─── รายการสินค้าในร้านค้า (Shop List) ─── */
+.shop-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 520px; /* จำกัดความสูง */
+    overflow-y: auto; /* ถ้าสินค้าเยอะเกินให้มีแถบเลื่อนแนวตั้ง (Scrollbar) */
+    padding-right: 4px; /* เว้นที่ให้ Scrollbar ไม่ทับเนื้อหา */
+}
+
+/* ตกแต่ง Scrollbar ให้ดูเล็กและสวยเข้ากับเว็บ */
+.shop-list::-webkit-scrollbar {
+    width: 5px; /* ความกว้างของแท่ง Scrollbar */
+}
+
+.shop-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15); /* สีของตัวจับเลื่อน */
+    border-radius: 4px;
+}
+
+/* ─── กล่องสินค้าแต่ละชิ้น (Shop Item) ─── */
+.shop-item {
+    background: var(--bg-card); /* พื้นหลังขาวใส */
+    border: 1px solid var(--border); /* ขอบบางๆ */
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex;
+    justify-content: space-between; /* แยกซ้าย(ไอคอน+ชื่อ) กับขวา(ปุ่มซื้อ) */
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+
+/* เอาเมาส์ชี้กล่องสินค้า */
+.shop-item:hover {
+    background: var(--bg-card-hover); /* สว่างขึ้น */
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* สถานะเมื่อเงินไม่พอซื้อสินค้าชิ้นนี้ */
+.shop-item.cant-afford {
+    opacity: 0.45; /* ทำให้กล่องดูจางๆ ลง 45% */
+}
+
+/* ฝั่งซ้ายของกล่องสินค้า (รูป + ข้อความ) */
+.item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1; /* ขยายให้กินพื้นที่มากที่สุดเท่าที่ทำได้ */
+    min-width: 0; /* ป้องกันไม่ให้ข้อความยาวๆ ดันกล่องพัง */
+}
+
+/* กล่องใส่รูปไอคอนสินค้า */
+.item-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.3); /* ดำโปร่งใส */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* ห้ามหดกล่องนี้เด็ดขาด (ป้องกันการถูกบีบ) */
+    border: 1px solid var(--border);
+}
+
+/* รูปภาพไอคอนสินค้า */
+.item-icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ถ้าไม่มีรูปลิงก์ ให้ซ่อนแท็ก img */
+.item-icon-box img[src=""],
+.item-icon-box img:not([src]) {
+    display: none;
+}
+
+/* อิโมจิสินค้า (ใช้แทนรูปถ้าไม่มีรูป) */
+.item-emoji {
+    font-size: 1.8rem;
+}
+
+/* ถ้ารูปว่างเปล่า ให้แสดงอิโมจิขึ้นมาแทน */
+.item-icon-box:has(img[src=""]) .item-emoji,
+.item-icon-box:has(img:not([src])) .item-emoji {
+    display: block;
+}
+
+/* ถ้ารูปมีลิงก์ปกติ ให้ซ่อนอิโมจิทิ้งไป */
+.item-icon-box:has(img:not([src=""])) .item-emoji {
+    display: none;
+}
+
+/* กล่องใส่ข้อความรายละเอียดสินค้า */
+.item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+/* ชื่อสินค้า */
+.item-name {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* คำอธิบายสินค้า */
+.item-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap; /* ห้ามตัดขึ้นบรรทัดใหม่ */
+    overflow: hidden; /* ถ้าข้อความยาวเกินให้ซ่อน */
+    text-overflow: ellipsis; /* ใส่จุดไข่ปลา (...) แทนข้อความที่ถูกตัด */
+}
+
+/* จำนวนที่มี (สีเขียว) */
+.item-owned {
+    font-size: 0.75rem;
+    color: var(--success);
+    font-weight: 600;
+}
+
+/* ปุ่มกดซื้อสินค้า */
+.btn-buy {
+    background: linear-gradient(135deg, var(--primary), #ec4899); /* ไล่สีม่วง-ชมพู */
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    transition: all 0.2s ease;
+    min-width: 85px; /* บังคับความกว้างปุ่มขั้นต่ำ */
+    flex-shrink: 0; /* ห้ามหดปุ่มเด็ดขาด */
+}
+
+/* เมื่อเอาเมาส์ชี้ที่ปุ่มซื้อ (และปุ่มนั้นต้องไม่ถูก disabled อยู่) */
+.btn-buy:hover:not(:disabled) {
+    transform: scale(1.05); /* ขยายใหญ่ขึ้น */
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4); /* เรืองแสง */
+}
+
+/* สถานะปุ่มที่ถูกปิดการใช้งาน (ซื้อไม่ได้) */
+.btn-buy:disabled {
+    background: rgba(255,255,255,0.08); /* พื้นหลังดำๆ เทาๆ */
+    color: var(--text-muted); /* ตัวหนังสือสีเทา */
+    cursor: not-allowed; /* เปลี่ยนรูปเมาส์เป็นเครื่องหมายห้าม */
+}
+
+/* ราคาที่อยู่ในปุ่มซื้อ */
+.btn-buy .cost {
+    font-size: 0.75rem;
+    opacity: 0.85; /* จางนิดหน่อย */
+}
+
+/* ─── อัลบั้มรวม Meme (Meme Gallery) ─── */
+.meme-gallery {
+    display: grid; /* เรียงกล่องแบบตาราง Grid */
+    grid-template-columns: 1fr 1fr; /* 2 คอลัมน์กว้างเท่ากัน */
+    gap: 12px;
+    max-height: 520px; /* จำกัดความสูง */
+    overflow-y: auto; /* เลื่อนแนวตั้งได้ */
+    padding-right: 4px;
+}
+
+/* ตกแต่งแท่งเลื่อน Scrollbar */
+.meme-gallery::-webkit-scrollbar {
+    width: 5px; /* ความกว้างของแท่ง Scrollbar */
+}
+
+.meme-gallery::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15); /* สีของตัวจับเลื่อน */
+    border-radius: 4px;
+}
+
+/* การ์ด Meme แต่ละใบ */
+.meme-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden; /* ถ้ารูปล้นกล่องให้ตัด */
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+/* เมื่อเอาเมาส์ชี้การ์ด Meme */
+.meme-card:hover {
+    transform: translateY(-3px); /* ลอยขึ้นมา 3px */
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3); /* เงาเรืองแสงสีม่วง */
+    border-color: var(--primary); /* ขอบเปลี่ยนเป็นสีม่วง */
+}
+
+/* สถานะเมื่อการ์ดยังไม่ถูกปลดล็อค */
+.meme-card.locked {
+    opacity: 0.4; /* ทำให้จางลง */
+    pointer-events: none; /* ห้ามคลิกเด็ดขาด */
+}
+
+/* เอาอิโมจิแม่กุญแจมาแปะทับการ์ดที่ยังไม่ปลดล็อค */
+.meme-card.locked::after {
+    content: '🔒';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem; /* กุญแจอันใหญ่ๆ */
+    background: rgba(0,0,0,0.5); /* ฟิล์มดำๆ ทับรูป */
+}
+
+/* รูปลายน้ำตัวอย่าง (Thumbnail) */
+.meme-thumb {
+    width: 100%;
+    aspect-ratio: 16/9; /* สัดส่วนหน้าจอแนวนอน 16:9 */
+    object-fit: cover;
+    display: block;
+    background: rgba(0,0,0,0.3);
+}
+
+/* กล่องใส่ข้อความใต้รูป Meme */
+.meme-info {
+    padding: 8px 10px;
+}
+
+/* ชื่อคลิป Meme */
+.meme-title {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap; /* ห้ามตัดขึ้นบรรทัดใหม่ */
+    overflow: hidden;
+    text-overflow: ellipsis; /* ตัดคำที่ล้นด้วยจุดไข่ปลา (...) */
+}
+
+/* ป้ายบอกว่า Meme นี้อยู่เลเวลอะไร */
+.meme-level-tag {
+    font-size: 0.65rem;
+    color: var(--primary-light);
+}
+
+/* ─── สถานะ: Meme ที่กำลังเล่นอยู่ ─── */
+.meme-card.now-playing {
+    border-color: var(--accent); /* ขอบสีส้ม */
+    box-shadow: 0 0 20px var(--accent-glow); /* เงาส้ม */
+}
+
+/* ป้ายบอกว่า "กำลังเล่น" แปะอยู่มุมซ้ายบนของรูป */
+.meme-card.now-playing::before {
+    content: '▶ กำลังเล่น';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: var(--accent); /* พื้นหลังส้ม */
+    color: #000; /* ตัวอักษรดำ */
+    font-family: var(--font-heading);
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    z-index: 5;
+}
+
+/* ─── กล่องเด้งขึ้นมากลางจอ (Modal) - (ปัจจุบันไม่ได้ใช้แล้ว แต่เก็บไว้เผื่ออนาคต) ─── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8); /* มืดตึ๊บ 80% */
+    backdrop-filter: blur(10px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-box {
+    background: #1a0f2e;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 640px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+}
+
+.modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+}
+
+.modal-top h2 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+    color: var(--danger);
+}
+
+.modal-video-wrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+}
+
+.modal-video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ─── ข้อความแจ้งเตือนที่มุมขวาล่าง (Toast) ─── */
+.toast-container {
+    position: fixed;
+    bottom: 24px; /* ลอยสูงจากขอบล่าง 24px */
+    right: 24px; /* ห่างขอบขวา 24px */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 300; /* อยู่หน้าสุดเหนือทุกสิ่ง */
+    pointer-events: none; /* ห้ามเมาส์กดโดน เพื่อให้คลิกทะลุได้ */
+}
+
+/* กล่องข้อความแจ้งเตือน 1 อัน */
+.toast {
+    background: rgba(15, 10, 31, 0.95);
+    border: 1px solid var(--primary); /* ขอบสีม่วง */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: toastSlide 0.3s forwards ease-out; /* เรียกใช้แอนิเมชันตอนปรากฏตัว */
+}
+
+/* แอนิเมชันให้กล่องเลื่อนเข้ามาจากทางขวา */
+@keyframes toastSlide {
+    0% { opacity: 0; transform: translateX(60px); } /* เริ่มต้นซ่อนอยู่ และเขยิบไปทางขวา 60px */
+    100% { opacity: 1; transform: translateX(0); } /* จบที่ตำแหน่งเดิม และสว่างเต็มที่ */
+}
+
+/* คลาสเสริมสำหรับซ่อนของต่างๆ (บังคับซ่อนแบบตัดบท) */
+.hidden {
+    display: none !important;
+}
