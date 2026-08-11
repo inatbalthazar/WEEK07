@@ -3,7 +3,10 @@
 
 // TODO 1: Select #item-input, #add-item-btn, #items (the <ul>), and
 // #item-count (the <span>).
-
+const itemInput = document.querySelector("#item-input");
+const addBtn = document.querySelector("#add-item-btn");
+const itemsLs = document.querySelector("#items");
+const itemCount = document.querySelector("#item-count");
 
 // TODO 2: Write a function updateCount() that sets item-count's textContent
 // to the number of <li> elements currently in the list (items.children.length).

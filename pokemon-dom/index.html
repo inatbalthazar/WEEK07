@@ -1,34 +1,21 @@
-<!-- กำหนดประเภทของเอกสารว่าเป็น HTML5 -->
 <!doctype html>
-<!-- แท็กเริ่มต้นของเอกสาร HTML กำหนดภาษาหลักของหน้าเว็บเป็นภาษาไทย (th) -->
 <html lang="th">
-  <!-- ส่วนหัวของเอกสาร HTML (สำหรับเก็บข้อมูล meta, ชื่อเว็บ, และการเชื่อมโยงไฟล์ภายนอก) -->
   <head>
-    <!-- กำหนดการถอดรหัสอักขระเป็น UTF-8 เพื่อรองรับภาษาไทยและอักขระพิเศษ -->
     <meta charset="UTF-8" />
-    <!-- กำหนด viewport ให้รองรับการแสดงผลแบบ Responsive บนอุปกรณ์มือถือ -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- กำหนดข้อความที่จะแสดงบนแท็บของเว็บบราวเซอร์ -->
     <title>Pokemon</title>
-    <!-- เชื่อมโยงไฟล์สไตล์ชีตภายนอก (stylesheet.css) เพื่อตกแต่งหน้าเว็บ -->
     <link rel="stylesheet" href="stylesheet.css" />
-  <!-- ปิดส่วนหัวของเอกสาร HTML -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:ital,wght@0,100..900;1,100..900&family=Yuyu&display=swap" rel="stylesheet">
   </head>
-  <!-- ส่วนเนื้อหาหลักที่จะแสดงผลบนหน้าจอเว็บบราวเซอร์ -->
   <body>
-    <!-- หัวข้อหลัก (H1) แสดงข้อความเชิญชวนให้ค้นหาโปเกมอน -->
-    <h1 class="page-title">Please Search your Favorite Pokemon!</h1>
-    <!-- ช่องสำหรับกรอกข้อความ เพื่อให้ผู้ใช้ป้อนชื่อหรือ ID ของโปเกมอนที่ต้องการค้นหา -->
+    <h1 class="page-title">Search Pokemon!</h1>
     <input type="text" id="pokemonInput" />
-    <!-- ปุ่มสำหรับกดเพื่อเริ่มทำการค้นหาข้อมูลโปเกมอน -->
     <button id="findPokemon">Find Pokemon</button>
-    <!-- ปุ่มสำหรับกดเพื่อล้างข้อมูลโปเกมอนที่แสดงอยู่ออกจากหน้าจอ -->
+    <button id="randomPokemon">Random</button>
     <button id="resetPokemon">Reset</button>
-    <!-- พื้นที่สำหรับแสดงผลการ์ดข้อมูลโปเกมอนที่ค้นหาได้ -->
     <div id="pokemon-container"></div>
-    <!-- เชื่อมโยงไฟล์ JavaScript ภายนอก (script.js) เพื่อจัดการการทำงานและคำสั่งต่าง ๆ -->
     <script src="script.js"></script>
-  <!-- ปิดส่วนเนื้อหาหลักของหน้าเว็บ -->
   </body>
-<!-- ปิดส่วนเอกสาร HTML -->
 </html>

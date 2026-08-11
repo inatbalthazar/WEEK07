@@ -1,183 +1,155 @@
-/* เลือกตกแต่ง element body ซึ่งเป็นส่วนเนื้อหาทั้งหมดของหน้าเว็บ */
 body {
-  /* กำหนดแบบอักษรหลักเป็น Segoe UI หรือแบบอักษรไร้หัวตามลำดับสำรอง */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  /* กำหนดสีพื้นหลังของหน้าเว็บเป็นสีเทาอ่อน (#f4f6f8) */
-  background-color: #f4f6f8;
-  /* จัดเค้าโครงด้วย Flexbox */
+  font-family: sans-serif;
+  font-weight: 400;
+  font-style: normal;
   display: flex;
-  /* จัดเรียงลูกๆ ภายใน body ตามแนวตั้ง (จากบนลงล่าง) */
   flex-direction: column;
-  /* จัดตำแหน่งลูกๆ ให้อยู่กึ่งกลางตามแนวนอน */
   align-items: center;
-  /* กำหนดระยะห่างภายใน body บน-ล่าง 40px และซ้าย-ขวา 20px */
-  padding: 40px 20px;
-  /* กำหนดระยะห่างภายนอก body เป็น 0 เพื่อลบขอบขาวเริ่มต้นของบราวเซอร์ */
   margin: 0;
+  min-height: 100vh;
+  background: #6b2b2b;
 }
 
-/* เลือกตกแต่ง element ที่มี class เป็น page-title */
-.page-title {
-  /* กำหนดสีข้อความหัวข้อเป็นสีน้ำเงิน (#3b4cca) */
-  color: #3b4cca;
-  /* กำหนดขนาดแบบอักษรหัวข้อเป็น 32 พิกเซล */
-  font-size: 32px;
-  /* จัดข้อความให้อยู่ตรงกลาง */
-  text-align: center;
-  /* กำหนดระยะห่างภายนอกด้านบนของหัวข้อ 10 พิกเซล */
-  margin-top: 10px;
-  /* กำหนดระยะห่างภายนอกด้านล่างของหัวข้อ 25 พิกเซล */
-  margin-bottom: 25px;
-  /* กำหนดระยะห่างระหว่างตัวอักษร 1 พิกเซล */
-  letter-spacing: 1px;
+h1 {
+  font-family: "Press Start 2P", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 10px;
+  color: rgb(217, 227, 32);
+
 }
 
-/* เลือกตกแต่ง element ที่มี class เป็น search-bar */
-.search-bar {
-  /* กำหนดระยะห่างภายนอกด้านล่างของกลุ่มค้นหา 30 พิกเซล */
-  margin-bottom: 30px;
-  /* จัดเค้าโครงลูกๆ ด้านในด้วย Flexbox */
-  display: flex;
-  /* กำหนดระยะห่างระหว่างองค์ประกอบภายในเป็น 10 พิกเซล */
-  gap: 10px;
+h3 {
+  font-family: "Press Start 2P", sans-serif;
+  font-size: smaller;
+  letter-spacing: 5px;
+  color: rgb(0, 0, 0);
+
 }
 
-/* เลือกตกแต่ง element input ที่มี attribute type เป็น text */
-input[type="text"] {
-  /* กำหนดระยะห่างภายในช่องกรอก บน-ล่าง 10px และซ้าย-ขวา 15px */
-  padding: 10px 15px;
-  /* กำหนดขนาดตัวอักษรภายในช่องกรอกเป็น 16 พิกเซล */
-  font-size: 16px;
-  /* กำหนดเส้นขอบความหนา 2px แบบเส้นทึบ สีเทาอ่อน (#ddd) */
-  border: 2px solid #ddd;
-  /* กำหนดความโค้งมนของขอบช่องกรอกเป็น 8 พิกเซล */
-  border-radius: 8px;
-  /* ลบเส้นขอบเน้น (outline) เริ่มต้นเมื่อคลิกเลือกช่องกรอก */
-  outline: none;
-  /* กำหนดความราบรื่นในการเปลี่ยนสีเส้นขอบเป็นเวลา 0.3 วินาที */
-  transition: border-color 0.3s;
-}
-
-/* เลือกตกแต่ง element input แบบ text เมื่ออยู่ในสถานะกำลังถูกคลิก/โฟกัส (focus) */
-input[type="text"]:focus {
-  /* เปลี่ยนสีเส้นขอบเป็นสีแดง/ชมพู (#ff5350) เมื่อถูกโฟกัส */
-  border-color: #ff5350;
-}
-
-/* เลือกตกแต่ง element ปุ่มกด (button) ทั้งหมด */
 button {
-  /* กำหนดระยะห่างภายในปุ่ม บน-ล่าง 10px และซ้าย-ขวา 20px */
-  padding: 10px 20px;
-  /* กำหนดระยะห่างภายนอกรอบปุ่ม 5 พิกเซล */
-  margin: 5px;
-  /* กำหนดความกว้างของปุ่มเป็น 160 พิกเซล */
-  width: 160px;
-  /* กำหนดขนาดตัวอักษรบนปุ่มเป็น 16 พิกเซล */
-  font-size: 16px;
-  /* ลบเส้นขอบปุ่มเริ่มต้น */
-  border: none;
-  /* กำหนดความโค้งมนของมุมปุ่มเป็น 8 พิกเซล */
-  border-radius: 8px;
-  /* เปลี่ยนสัญลักษณ์เคอร์เซอร์เมาส์ให้เป็นรูปมือเมื่อชี้บนปุ่ม */
-  cursor: pointer;
-  /* กำหนดให้ตัวอักษรบนปุ่มเป็นตัวหนา */
-  font-weight: bold;
-  /* กำหนดสีข้อความบนปุ่มเป็นสีขาว */
+  margin-top: 10px;
+  padding: 10px 30px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+button:hover {
+  background-color: #994c11; /* Green */
   color: white;
 }
 
-/* เลือกตกแต่ง element ปุ่มกดเมื่อถูกกดค้างไว้ (active) */
 button:active {
-  /* ย่อขนาดของปุ่มลงเหลือ 95% เมื่อถูกกด เพื่อสร้างเอฟเฟกต์การกด */
-  transform: scale(0.95);
+  transform: scale(0.5);
 }
 
-/* เลือกตกแต่งปุ่มที่มี id เป็น findPokemon */
-#findPokemon {
-  /* กำหนดสีพื้นหลังของปุ่มค้นหาเป็นสีน้ำเงิน (#3b4cca) */
-  background-color: #3b4cca;
-}
-/* เลือกตกแต่งปุ่มค้นหาเมื่อนำเมาส์ไปชี้ (hover) */
-#findPokemon:hover {
-  /* เปลี่ยนสีพื้นหลังให้เป็นสีน้ำเงินที่เข้มขึ้น (#2b399a) เมื่อนำเมาส์ไปชี้ */
-  background-color: #2b399a;
-}
-
-/* เลือกตกแต่งปุ่มที่มี id เป็น resetPokemon */
-#resetPokemon {
-  /* กำหนดสีพื้นหลังของปุ่มรีเซ็ตเป็นสีแดง (#ff5350) */
-  background-color: #ff5350;
-}
-/* เลือกตกแต่งปุ่มรีเซ็ตเมื่อนำเมาส์ไปชี้ (hover) */
-#resetPokemon:hover {
-  /* เปลี่ยนสีพื้นหลังให้เป็นสีแดงที่เข้มขึ้น (#cc4240) เมื่อนำเมาส์ไปชี้ */
-  background-color: #cc4240;
+input[type="text"] {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
 }
 
-/* เลือกตกแต่ง element ที่มี id เป็น pokemon-container */
+input[type="text"]:focus {
+  border-color: #4a90e2;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+}
+
 #pokemon-container {
-  /* จัดเค้าโครงพื้นที่แสดงผลด้วย Flexbox */
   display: flex;
-  /* อนุญาตให้องค์ประกอบย่อยขึ้นบรรทัดใหม่เมื่อพื้นที่ไม่พอ */
   flex-wrap: wrap;
-  /* กำหนดระยะห่างระหว่างการ์ดแต่ละใบเป็น 15 พิกเซล */
-  gap: 15px;
-  /* จัดตำแหน่งการ์ดให้อยู่กึ่งกลางพื้นที่ */
+  gap: 10px;
   justify-content: center;
-  /* กำหนดความกว้างสูงสุดของพื้นที่แสดงผลเป็น 800 พิกเซล */
   max-width: 800px;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 30px;
 }
 
-/* เลือกตกแต่ง element ที่มี class เป็น pokemon-card */
 .pokemon-card {
-  /* กำหนดสีพื้นหลังของการ์ดเป็นสีขาว */
-  background-color: white;
-  /* กำหนดความโค้งมนของมุมการ์ดเป็น 12 พิกเซล */
-  border-radius: 12px;
-  /* กำหนดระยะห่างภายในรอบๆ การ์ด 20 พิกเซล */
-  padding: 20px;
-  /* กำหนดความกว้างของการ์ดเป็น 150 พิกเซล */
-  width: 150px;
-  /* จัดเค้าโครงภายในการ์ดด้วย Flexbox */
+  --background: linear-gradient(to right, #74ebd5 0%, #acb6e5 100%);
+  width: 190px;
+  height: 254px;
+  padding: 5px;
+  border-radius: 1rem;
+  overflow: visible;
+  background: #74ebd5;
+  background: var(--background);
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-family: "Press Start 2P";
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pokemon-card::before,
+.pokemon-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  z-index: -1;
+}
+
+.pokemon-card::before {
+  background: linear-gradient(to bottom right, #f6d365 0%, #fda085 100%);
+  transform: rotate(2deg);
+}
+
+.pokemon-card::after {
+  background: linear-gradient(to top right, #84fab0 0%, #8fd3f4 100%);
+  transform: rotate(-2deg);
+}
+
+.pokemon-card-info {
+  --color: #292b2c;
+  background: var(--color);
+  color: var(--color);
   display: flex;
-  /* จัดเรียงเนื้อหาภายในการ์ดตามแนวตั้ง */
-  flex-direction: column;
-  /* จัดตำแหน่งเนื้อหาภายในการ์ดให้อยู่ตรงกลางแนวนอน */
+  justify-content: center;
   align-items: center;
-  /* กำหนดเงาให้กับการ์ดเพื่อดูมีมิติ */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* กำหนดความราบรื่นในการเปลี่ยนขนาดและเงาเป็นเวลา 0.3 วินาที */
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  border-radius: 0.7rem;
+  position: relative;
+  z-index: 2;
 }
 
-/* เลือกตกแต่งการ์ดโปเกมอนเมื่อนำเมาส์ไปชี้ (hover) */
-.pokemon-card:hover {
-  /* เลื่อนการ์ดขึ้นด้านบน 5 พิกเซล */
-  transform: translateY(-5px);
-  /* เพิ่มขนาดและขยายเงาของการ์ดให้ดูนูนขึ้น */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+.pokemon-card .title {
+  font-weight: bold;
+  letter-spacing: 0.1em;
 }
 
-/* เลือกตกแต่งรูปภาพ <img> ภายใน class pokemon-card */
+.pokemon-card:hover::before,
+.pokemon-card:hover::after {
+  opacity: 0;
+}
+
+.pokemon-card:hover .pokemon-card-info {
+  color: #74ebd5;
+  transition: color 1s;
+}
+
+
 .pokemon-card img {
-  /* กำหนดความกว้างของรูปภาพเป็น 100 พิกเซล */
-  width: 100px;
-  /* กำหนดความสูงของรูปภาพเป็น 100 พิกเซล */
-  height: 100px;
-  /* กำหนดสีพื้นหลังของรูปภาพเป็นสีเทาอ่อน (#f0f0f0) */
-  background-color: #f0f0f0;
-  /* กำหนดความโค้งมนเป็น 50% ทำให้รูปภาพเป็นทรงกลม */
-  border-radius: 50%;
-  /* กำหนดระยะห่างภายนอกด้านล่างของรูปภาพ 15 พิกเซล */
-  margin-bottom: 15px;
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
-/* เลือกตกแต่งหัวข้อ <h3> ภายใน class pokemon-card */
-.pokemon-card h3 {
-  /* ลบระยะห่างภายนอกรอบหัวข้อ */
-  margin: 0;
-  /* กำหนดสีข้อความชื่อโปเกมอนเป็นสีเทาดำ (#333) */
-  color: #333;
+.pokemon-card:hover {
+    transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(22, 102, 222, 0.7);
 }
