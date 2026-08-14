@@ -1,148 +1,73 @@
-<!DOCTYPE html> <!-- ประกาศให้เบราว์เซอร์รู้ว่านี่คือเอกสาร HTML5 -->
-<html lang="th"> <!-- เปิดแท็ก html และกำหนดภาษาของหน้าเว็บเป็นภาษาไทย (th) -->
-<head> <!-- ส่วน head ใช้เก็บข้อมูล meta, ลิงก์ไฟล์ CSS และฟอนต์ (จะไม่แสดงผลบนหน้าเว็บโดยตรง) -->
-    <meta charset="UTF-8"> <!-- กำหนดให้รองรับการเข้ารหัสตัวอักษรแบบ UTF-8 (รองรับภาษาไทย) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตั้งค่าให้หน้าเว็บแสดงผลพอดีกับขนาดหน้าจออุปกรณ์มือถือ -->
-    <title>การท่า 67 Clicker 🙌</title> <!-- ชื่อแท็บของเว็บเบราว์เซอร์ -->
-    <meta name="description" content="การท่า 67 Clicker Game - Click to raise your hands, unlock meme videos, and build your empire!"> <!-- คำอธิบายหน้าเว็บสำหรับ Search Engine (SEO) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- เชื่อมต่อล่วงหน้ากับ Google Fonts เพื่อให้โหลดฟอนต์เร็วขึ้น -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- เชื่อมต่อล่วงหน้ากับเซิร์ฟเวอร์เก็บฟอนต์ของ Google แบบ cross-origin -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800;900&family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet"> <!-- โหลดฟอนต์ Kanit และ Prompt จาก Google Fonts -->
-    <link rel="stylesheet" href="stylesheet.css"> <!-- ลิงก์เชื่อมโยงไปยังไฟล์ stylesheet.css ของเราที่ใช้ตกแต่งหน้าเว็บ -->
-</head> <!-- ปิดส่วน head -->
-<body> <!-- ส่วน body คือส่วนที่เก็บเนื้อหาทั้งหมดที่จะแสดงให้ผู้ใช้เห็นบนหน้าจอ -->
-    <!-- Background particles --> <!-- คอมเมนต์อธิบาย: ส่วนพื้นหลังที่เป็นเม็ดสีๆ ลอยไปมา -->
-    <div class="bg-particles" id="bg-particles"></div> <!-- กล่องสำหรับใส่เอฟเฟกต์จุดสีๆ ลอยไปมา (จัดการโดย JavaScript) -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การท่า 67 Clicker 🙌</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="header-left">
+                <h1>67 🙌</h1>
+                <div class="level-badge">⭐ <span id="level-text">Level 1</span></div>
+            </div>
+            <div class="header-right">
+                <div class="player-box">
+                    👤 <span id="player-name-display">ผู้เล่น 67</span>
+                    <button id="btn-edit-name" class="btn-icon" title="เปลี่ยนชื่อ">✏️</button>
+                </div>
+                <button id="btn-sound" class="header-btn"><span id="sound-icon">🔊</span></button>
+            </div>
+        </header>
 
-    <div class="game-container"> <!-- กล่องใหญ่สุดที่ครอบเนื้อหาเกมทั้งหมดไว้ตรงกลางหน้าจอ -->
-        <!-- HEADER --> <!-- คอมเมนต์อธิบาย: ส่วนหัวของเกม -->
-        <header class="game-header" id="game-header"> <!-- แถบส่วนหัวด้านบนสุดของเกม -->
-            <div class="header-left"> <!-- กล่องด้านซ้ายของแถบส่วนหัว -->
-                <h1 class="game-title">การท่า 67 <span class="title-emoji">🙌</span></h1> <!-- ชื่อเกม ใช้ h1 เป็นหัวข้อหลัก (มีอิโมจิอยู่ใน span) -->
-                <div class="level-badge" id="level-badge"> <!-- ป้ายบอกเลเวลปัจจุบันของผู้เล่น -->
-                    <span class="level-icon">⭐</span> <!-- ไอคอนดาวหน้าเลเวล -->
-                    <span id="level-text">Level 1</span> <!-- ข้อความบอกเลเวล (เปลี่ยนได้ด้วย JS) -->
-                </div> <!-- ปิดป้ายบอกเลเวล -->
-            </div> <!-- ปิดกล่องด้านซ้าย -->
-            <div class="header-right"> <!-- กล่องด้านขวาของแถบส่วนหัว -->
-                <button id="btn-sound" class="header-btn" title="เปิด/ปิดเสียง"> <!-- ปุ่มสำหรับเปิด/ปิดเสียงของเกม -->
-                    <span id="sound-icon">🔊</span> <!-- ไอคอนรูปลำโพง (จะเปลี่ยนเป็น 🔇 เมื่อปิดเสียง) -->
-                </button> <!-- ปิดปุ่มเสียง -->
-                <button id="btn-reset" class="header-btn btn-danger" title="เริ่มใหม่"> <!-- ปุ่มสำหรับรีเซ็ตเริ่มเกมใหม่ทั้งหมด -->
-                    <span>🔄</span> <!-- ไอคอนลูกศรวน รีเซ็ต -->
-                </button> <!-- ปิดปุ่มรีเซ็ต -->
-            </div> <!-- ปิดกล่องด้านขวา -->
-        </header> <!-- ปิดแถบส่วนหัว -->
+        <section class="score-bar">
+            <div class="score-card score-main">🏆 คะแนนรวม: <span class="score-val" id="total-score">0</span></div>
+            <div class="score-card">⚡ คะแนน/วินาที: <span class="score-val" id="score-per-sec">0.0</span></div>
+        </section>
 
-        <!-- SCORE DASHBOARD --> <!-- คอมเมนต์อธิบาย: แผงควบคุมแสดงคะแนน -->
-        <section class="score-bar"> <!-- กล่องแนวนอนที่ใช้แสดงคะแนนต่างๆ -->
-            <div class="score-card score-main"> <!-- การ์ดแสดงคะแนนรวม (มีคลาส score-main เพื่อเน้นให้เด่นขึ้น) -->
-                <div class="score-icon">🏆</div> <!-- ไอคอนถ้วยรางวัล -->
-                <div class="score-info"> <!-- กล่องรวมข้อความข้อมูลคะแนน -->
-                    <span class="score-label">คะแนนรวม</span> <!-- ป้ายบอกว่านี่คือคะแนนรวม -->
-                    <span class="score-value" id="total-score">0</span> <!-- ตัวเลขคะแนนรวม (เปลี่ยนด้วย JS ตามการคลิก) -->
-                </div> <!-- ปิดกล่องข้อมูลคะแนน -->
-            </div> <!-- ปิดการ์ดคะแนนรวม -->
-            <div class="score-card"> <!-- การ์ดแสดงคะแนนที่เด้งขึ้นเองทุกวินาที (Auto Clicker) -->
-                <div class="score-icon">⚡</div> <!-- ไอคอนสายฟ้า -->
-                <div class="score-info"> <!-- กล่องรวมข้อความข้อมูลคะแนนต่อวินาที -->
-                    <span class="score-label">คะแนน / วินาที</span> <!-- ป้ายบอกว่านี่คือคะแนนต่อวินาที (PPS) -->
-                    <span class="score-value" id="score-per-sec">0.0</span> <!-- ตัวเลขคะแนนต่อวินาที (เพิ่มจากการซื้อของในร้าน) -->
-                </div> <!-- ปิดกล่องข้อมูลคะแนนต่อวินาที -->
-            </div> <!-- ปิดการ์ดคะแนนต่อวินาที -->
-            <div class="score-card"> <!-- การ์ดแสดงคะแนนที่เราได้จากการคลิก 1 ครั้ง -->
-                <div class="score-icon">👆</div> <!-- ไอคอนนิ้วชี้คลิก -->
-                <div class="score-info"> <!-- กล่องรวมข้อความข้อมูลคะแนนต่อคลิก -->
-                    <span class="score-label">คะแนน / คลิก</span> <!-- ป้ายบอกว่านี่คือคะแนนต่อคลิก (PPC) -->
-                    <span class="score-value" id="score-per-click">1</span> <!-- ตัวเลขคะแนนต่อการคลิก 1 ครั้ง -->
-                </div> <!-- ปิดกล่องข้อมูลคะแนนต่อคลิก -->
-            </div> <!-- ปิดการ์ดคะแนนต่อคลิก -->
-        </section> <!-- ปิดแผงแสดงคะแนน -->
+        <main class="main-content">
+            <section class="clicker-area">
+                <div class="hands-stage" id="hands-stage">
+                    <div class="bg-meme-video"><video id="bg-meme-video-el" autoplay loop muted playsinline></video></div>
+                    <div class="floating-container" id="floating-container"></div>
+                    <div class="hand-wrapper hand-left" id="hand-left">🤚</div>
+                    <div class="hand-wrapper hand-right" id="hand-right">✋</div>
+                    <button class="btn-click-67" id="btn-click">คลิ๊กเพื่อทำท่า 67!</button>
+                </div>
 
-        <!-- MAIN CONTENT --> <!-- คอมเมนต์อธิบาย: ส่วนเนื้อหาหลักของเกมตรงกลาง -->
-        <main class="main-content"> <!-- ใช้แท็ก main เพื่อบอกว่าเป็นพื้นที่หลักของเพจ -->
-            <!-- LEFT: CLICKER AREA --> <!-- คอมเมนต์อธิบาย: กล่องด้านซ้ายสำหรับพื้นที่กดทำท่า -->
-            <section class="clicker-area"> <!-- พื้นที่สำหรับแสดงมือและให้ผู้เล่นกดคลิก -->
-                <!-- HANDS DISPLAY --> <!-- คอมเมนต์อธิบาย: พื้นที่แสดงเวทีมือซ้ายและขวา -->
-                <div class="hands-stage" id="hands-stage"> <!-- เวทีหลักที่จะมีวิดีโอพื้นหลังและมือ 2 ข้าง -->
-                    <!-- Background Meme Video (auto-plays latest unlocked meme) --> <!-- วิดีโอ Meme ล่าสุดที่ปลดล็อคจะเล่นเป็นพื้นหลังที่นี่ -->
-                    <div class="bg-meme-video" id="bg-meme-video"> <!-- กล่องห่อหุ้มวิดีโอพื้นหลัง -->
-                        <video id="bg-meme-video-el" autoplay loop muted playsinline></video> <!-- ตัวเล่นวิดีโอ HTML5 แบบเล่นวนซ้ำอัตโนมัติ ไม่แสดงแถบควบคุม -->
-                    </div> <!-- ปิดกล่องวิดีโอพื้นหลัง -->
+                <div class="progress-box">
+                    <div class="progress-header">
+                        <span>🎬 ปลดล็อค Meme ถัดไป</span>
+                        <span id="progress-target-text">Level 2 — 50 pts</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+                    <div class="progress-hint" id="progress-hint">กดท่า 67 เพื่อสะสมคะแนนปลดล็อค!</div>
+                </div>
+            </section>
 
-                    <div class="floating-container" id="floating-container"></div> <!-- กล่องสำหรับใส่ตัวเลขคะแนนที่ลอยขึ้นมาตอนคลิก (สร้างโดย JS) -->
+            <section class="side-panel">
+                <div class="panel-tabs">
+                    <button class="panel-tab active" data-tab="tab-shop">🛒 ร้านค้า</button>
+                    <button class="panel-tab" data-tab="tab-memes">🎬 Gallery</button>
+                </div>
+                <div class="tab-content active" id="tab-shop"><div class="shop-list" id="shop-list"></div></div>
+                <div class="tab-content" id="tab-memes"><div class="meme-gallery" id="meme-gallery"></div></div>
+            </section>
+        </main>
 
-                    <!-- Left Hand --> <!-- คอมเมนต์อธิบาย: ส่วนของมือซ้าย -->
-                    <div class="hand-wrapper hand-left" id="hand-left"> <!-- กล่องหุ้มมือซ้าย จัดตำแหน่งซ้าย -->
-                        <div class="hand-img-box"> <!-- กล่องที่กำหนดขนาดและกรอบสำหรับรูปมือ -->
-                            <!-- ใส่ลิงก์รูปมือซ้าย (1:1) ตรงนี้ --> <!-- จุดสำหรับให้ใส่รูปมือซ้ายของจริงในภายหลัง -->
-                            <img src="" alt="มือซ้าย 67" class="hand-img" id="hand-left-img"> <!-- รูปภาพมือซ้าย (ตอนนี้เว้น src ว่างไว้) -->
-                            <div class="hand-placeholder" id="hand-left-placeholder">🤚</div> <!-- อิโมจิมือซ้ายชั่วคราว (จะแสดงตอนที่รูปจริงยังไม่โหลด) -->
-                        </div> <!-- ปิดกล่องรูปมือ -->
-                    </div> <!-- ปิดกล่องหุ้มมือซ้าย -->
+        <!-- LEADERBOARD AT BOTTOM -->
+        <section class="leaderboard-section">
+            <div class="lb-header">
+                <h3>🏆 อันดับผู้เล่นสูงสุด (Leaderboard)</h3>
+                <button id="btn-refresh-lb" class="btn-refresh">🔄 รีเฟรช</button>
+            </div>
+            <div class="leaderboard-list" id="leaderboard-list"></div>
+        </section>
+    </div>
 
-                    <!-- Right Hand --> <!-- คอมเมนต์อธิบาย: ส่วนของมือขวา -->
-                    <div class="hand-wrapper hand-right" id="hand-right"> <!-- กล่องหุ้มมือขวา จัดตำแหน่งขวา -->
-                        <div class="hand-img-box"> <!-- กล่องที่กำหนดขนาดและกรอบสำหรับรูปมือ -->
-                            <!-- ใส่ลิงก์รูปมือขวา (1:1) ตรงนี้ --> <!-- จุดสำหรับให้ใส่รูปมือขวาของจริงในภายหลัง -->
-                            <img src="" alt="มือขวา 67" class="hand-img" id="hand-right-img"> <!-- รูปภาพมือขวา (ตอนนี้เว้น src ว่างไว้) -->
-                            <div class="hand-placeholder" id="hand-right-placeholder">✋</div> <!-- อิโมจิมือขวาชั่วคราว -->
-                        </div> <!-- ปิดกล่องรูปมือ -->
-                    </div> <!-- ปิดกล่องหุ้มมือขวา -->
-
-                    <!-- Click Action Button --> <!-- คอมเมนต์อธิบาย: ปุ่มกดคลิกตรงกลาง -->
-                    <button class="btn-click-67" id="btn-click"> <!-- ปุ่มกลมๆ ใหญ่ๆ ตรงกลางสำหรับกดทำท่า -->
-                        <span class="click-text">👋 กดท่า 67!</span> <!-- ข้อความบนปุ่มกด -->
-                    </button> <!-- ปิดปุ่มกดคลิก -->
-                </div> <!-- ปิดพื้นที่เวทีมือ -->
-
-                <!-- PROGRESS TO NEXT MEME --> <!-- คอมเมนต์อธิบาย: หลอดแสดงความคืบหน้าการปลดล็อค Meme ถัดไป -->
-                <div class="progress-box" id="progress-box"> <!-- กล่องหลอด Progress ด้านล่างเวที -->
-                    <div class="progress-header"> <!-- ข้อความส่วนหัวของหลอด Progress -->
-                        <span class="progress-title">🎬 ปลดล็อค Meme ถัดไป</span> <!-- ป้ายชื่อหลอด -->
-                        <span class="progress-target" id="progress-target-text">Level 2 — 50 pts</span> <!-- เป้าหมายคะแนนที่ต้องไปให้ถึง (JS เป็นตัวกำหนด) -->
-                    </div> <!-- ปิดข้อความส่วนหัว Progress -->
-                    <div class="progress-bar-bg"> <!-- พื้นหลังหลอดสีเทา -->
-                        <div class="progress-bar-fill" id="progress-fill"></div> <!-- แถบสีที่เติมเต็มตามคะแนนที่มี (ปรับความกว้างด้วย JS) -->
-                    </div> <!-- ปิดพื้นหลังหลอด -->
-                    <div class="progress-hint" id="progress-hint">กดท่า 67 เพื่อสะสมคะแนนปลดล็อค!</div> <!-- คำใบ้หรือข้อความให้กำลังใจด้านล่างสุด -->
-                </div> <!-- ปิดหลอด Progress -->
-            </section> <!-- ปิดกล่องด้านซ้าย -->
-
-            <!-- RIGHT: SHOP + MEME GALLERY --> <!-- คอมเมนต์อธิบาย: กล่องด้านขวาสำหรับร้านค้าและแกลเลอรี -->
-            <section class="side-panel"> <!-- พื้นที่ด้านขวามือของเว็บ -->
-                <!-- TABS --> <!-- คอมเมนต์อธิบาย: ปุ่มแท็บสลับหน้าร้านค้าและแกลเลอรี -->
-                <div class="panel-tabs"> <!-- กล่องแนวนอนใส่ปุ่มแท็บ -->
-                    <button class="panel-tab active" data-tab="tab-shop" id="tab-btn-shop"> <!-- ปุ่มแท็บร้านค้า (มี class active เพื่อบอกว่าเปิดหน้านี้อยู่) -->
-                        🛒 ร้านค้า <!-- ไอคอนและข้อความร้านค้า -->
-                    </button> <!-- ปิดปุ่มแท็บร้านค้า -->
-                    <button class="panel-tab" data-tab="tab-memes" id="tab-btn-memes"> <!-- ปุ่มแท็บ Meme Gallery -->
-                        🎬 Meme Gallery <!-- ไอคอนและข้อความแกลเลอรี -->
-                    </button> <!-- ปิดปุ่มแท็บแกลเลอรี -->
-                </div> <!-- ปิดกล่องปุ่มแท็บ -->
-
-                <!-- TAB: SHOP --> <!-- คอมเมนต์อธิบาย: หน้าต่างเนื้อหาของร้านค้า -->
-                <div class="tab-content active" id="tab-shop"> <!-- กล่องเนื้อหาของร้านค้า (แสดงเมื่อ tab นี้ active) -->
-                    <div class="shop-list" id="shop-list"> <!-- คอนเทนเนอร์สำหรับใส่รายการสินค้าในร้าน -->
-                        <!-- Injected by JS --> <!-- คอมเมนต์อธิบาย: โค้ด HTML ของสินค้าจะถูกสร้างและใส่เข้ามาที่นี่โดยอัตโนมัติจากไฟล์ main.js -->
-                    </div> <!-- ปิดคอนเทนเนอร์รายการสินค้า -->
-                </div> <!-- ปิดหน้าต่างเนื้อหาร้านค้า -->
-
-                <!-- TAB: MEME GALLERY --> <!-- คอมเมนต์อธิบาย: หน้าต่างเนื้อหาของแกลเลอรี -->
-                <div class="tab-content" id="tab-memes"> <!-- กล่องเนื้อหาของ Meme Gallery -->
-                    <div class="meme-gallery" id="meme-gallery"> <!-- คอนเทนเนอร์สำหรับใส่การ์ด Meme ที่ปลดล็อคแล้ว -->
-                        <!-- Injected by JS --> <!-- คอมเมนต์อธิบาย: โค้ด HTML ของ Meme จะถูกสร้างและใส่เข้ามาที่นี่โดยอัตโนมัติจากไฟล์ main.js -->
-                    </div> <!-- ปิดคอนเทนเนอร์ Meme Gallery -->
-                </div> <!-- ปิดหน้าต่างเนื้อหาแกลเลอรี -->
-            </section> <!-- ปิดกล่องด้านขวา -->
-        </main> <!-- ปิดพื้นที่เนื้อหาหลัก -->
-    </div> <!-- ปิดกล่องครอบใหญ่สุด -->
-
-
-
-    <!-- TOAST NOTIFICATIONS --> <!-- คอมเมนต์อธิบาย: ระบบแจ้งเตือนที่จะเด้งขึ้นมาและหายไปเอง (เช่น ปลดล็อค level ใหม่) -->
-    <div class="toast-container" id="toast-container"></div> <!-- กล่องที่ลอยอยู่เหนือทุกอย่างบนหน้าจอ คอยรับกล่องข้อความจาก JS -->
-
-    <script src="main.js"></script> <!-- เรียกใช้งานไฟล์ main.js เพื่อให้เกมมีตรรกะและทำงานโต้ตอบได้ -->
-</body> <!-- ปิดส่วน body -->
-</html> <!-- ปิดแท็ก html เป็นอันสิ้นสุดหน้าเว็บ -->
+    <script src="main.js"></script>
+</body>
+</html>
