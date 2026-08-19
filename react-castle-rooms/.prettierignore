@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+build
+coverage
+.next
+.vercel
+package-lock.json
+*.min.js
+*.min.css
+public

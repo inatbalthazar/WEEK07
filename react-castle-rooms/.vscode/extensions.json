@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "enkia.tokyo-night",
+    "PKief.material-icon-theme",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "dsznajder.es7-react-js-snippets",
+    "christian-kohler.npm-intellisense",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.auto-close-tag",
+    "mikestead.dotenv",
+    "mongodb.mongodb-vscode",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

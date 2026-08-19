@@ -1,0 +1,35 @@
+.thai {
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    border: solid 2px rgb(0, 0, 0);
+    box-shadow: 0 4px 7px rgb(66, 66, 66);
+}
+
+.name {
+    text-align: center;
+
+}
+.red {
+    background-color: red;
+    flex: 1;
+    
+}
+.white {
+    background-color: rgb(255, 255, 255);
+    flex: 1;
+}
+.blue {
+    background-color: rgb(68, 0, 255);
+    flex: 2;
+}
+.white2 {
+    background-color: rgb(255, 255, 255);
+    flex: 1;
+}
+.red2 {
+    background-color: red;
+    flex: 1;
+}
+

@@ -1,20 +1,39 @@
+import Castle from "./components/01_Castle";
+import { useContext } from "react";
+import { MessageContext } from "./context/messageContext/MessageContext";
+
 export default function App() {
+
+  const { question, answer, handleQuestion } = useContext(MessageContext);
+
   return (
-    <div className="min-h-screen flex justify-center bg-blue-950">
-      <div className="p-6 gap-y-6 flex flex-col justify-start w-[80%] lg:w-[70%]">
-        <h1 className="w-full p-6 bg-amber-100 font-extrabold">
-          React App Starter
-        </h1>
-        <section className="w-full p-5 bg-amber-100 flex">
-          <ul className="list-inside list-disc flex-1">
-            <span className="font-semibold">Tech Stack:</span>
-            <li>Vite</li>
-            <li>React</li>
-            <li>JavaScript</li>
-            <li>Tailwind</li>
-          </ul>
-        </section>
-      </div>
+    // card ห้อง secret room
+    <div className="flex flex-col justify-center items-center min-h-screen bg-[url('/bg.gif')] bg-repeat bg-gray-300 p-4">
+
+      {/* ข้อความจากกล่อง input */}
+      <p className="text-purple-800 text-center">
+        Message to Cooper:{" "}
+        <span>{question ? `🛰️ ${question}` : "⌛ Waiting for a message"}</span>
+      </p>
+
+      <p className="text-purple-800 text-center">
+        Message from Cooper:{" "}
+        <span className="text-yellow-800">
+          {answer
+          ? `🛰️ ${answer}`
+          : "⌛ Waiting for a message..."}
+        </span>
+      </p>
+
+      {/* กล่อง input */}
+      <textarea
+        value={question}
+        onChange={handleQuestion}
+        placeholder="Type your message here..."
+        className="bg-white text-black rounded px-2 py-1 text-center my-2"
+      />
+
+      <Castle />
     </div>
   );
 }

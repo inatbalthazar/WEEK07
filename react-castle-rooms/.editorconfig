@@ -1,0 +1,7 @@
+node_modules=true
+dist=true
+.git=true
+.gitignore
+.vscode
+*.md
+package-lock.json

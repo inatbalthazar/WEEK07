@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>การท่า 67 Clicker 🙌</title>
+    <title>67 Clicker 🙌</title>
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
     <div class="game-container">
         <header class="game-header">
             <div class="header-left">
-                <h1>67 🙌</h1>
-                <div class="level-badge">⭐ <span id="level-text">Level 1</span></div>
+                <h1>67 Clicker</h1>
+                <div class="level-badge"><span id="level-text">Level 1</span></div>
             </div>
             <div class="header-right">
                 <div class="player-box">
-                    👤 <span id="player-name-display">ผู้เล่น 67</span>
-                    <button id="btn-edit-name" class="btn-icon" title="เปลี่ยนชื่อ">✏️</button>
+                    <span id="player-name-display">ผู้เล่น 67</span>
+                    <button id="btn-edit-name" class="btn-icon" title="เปลี่ยนชื่อ">👤</button>
                 </div>
                 <button id="btn-sound" class="header-btn"><span id="sound-icon">🔊</span></button>
             </div>
         </header>
 
         <section class="score-bar">
-            <div class="score-card score-main">🏆 คะแนนรวม: <span class="score-val" id="total-score">0</span></div>
-            <div class="score-card">⚡ คะแนน/วินาที: <span class="score-val" id="score-per-sec">0.0</span></div>
+            <div class="score-card score-main">จำนวนครั้ง: <span class="score-val" id="total-score">0</span></div>
+            <div class="score-card">ครั้ง/วินาที: <span class="score-val" id="score-per-sec">0.0</span></div>
         </section>
 
         <main class="main-content">
             <section class="clicker-area">
                 <div class="hands-stage" id="hands-stage">
-                    <div class="bg-meme-video"><video id="bg-meme-video-el" autoplay loop muted playsinline></video></div>
+                    <div class="bg-meme-video"><video id="bg-meme-video-el" autoplay loop muted playsinline></video>
+                    </div>
                     <div class="floating-container" id="floating-container"></div>
                     <div class="hand-wrapper hand-left" id="hand-left">🤚</div>
                     <div class="hand-wrapper hand-right" id="hand-right">✋</div>
@@ -43,18 +46,24 @@
                         <span>🎬 ปลดล็อค Meme ถัดไป</span>
                         <span id="progress-target-text">Level 2 — 50 pts</span>
                     </div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
-                    <div class="progress-hint" id="progress-hint">กดท่า 67 เพื่อสะสมคะแนนปลดล็อค!</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-hint" id="progress-hint">กดท่า 67 เพื่อปลดล็อค!</div>
                 </div>
             </section>
 
             <section class="side-panel">
                 <div class="panel-tabs">
-                    <button class="panel-tab active" data-tab="tab-shop">🛒 ร้านค้า</button>
-                    <button class="panel-tab" data-tab="tab-memes">🎬 Gallery</button>
+                    <button class="panel-tab active" data-tab="tab-shop">ตัวช่วย</button>
+                    <button class="panel-tab" data-tab="tab-memes">ปลดล็อค</button>
                 </div>
-                <div class="tab-content active" id="tab-shop"><div class="shop-list" id="shop-list"></div></div>
-                <div class="tab-content" id="tab-memes"><div class="meme-gallery" id="meme-gallery"></div></div>
+                <div class="tab-content active" id="tab-shop">
+                    <div class="shop-list" id="shop-list"></div>
+                </div>
+                <div class="tab-content" id="tab-memes">
+                    <div class="meme-gallery" id="meme-gallery"></div>
+                </div>
             </section>
         </main>
 
@@ -62,7 +71,6 @@
         <section class="leaderboard-section">
             <div class="lb-header">
                 <h3>🏆 อันดับผู้เล่นสูงสุด (Leaderboard)</h3>
-                <button id="btn-refresh-lb" class="btn-refresh">🔄 รีเฟรช</button>
             </div>
             <div class="leaderboard-list" id="leaderboard-list"></div>
         </section>
@@ -70,4 +78,5 @@
 
     <script src="main.js"></script>
 </body>
+
 </html>
