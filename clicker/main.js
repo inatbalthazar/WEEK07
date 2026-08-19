@@ -2,11 +2,11 @@ const SUPABASE_URL = "https://jdmdjstufehditcflxcd.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkbWRqc3R1ZmVoZGl0Y2ZseGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjc4MzksImV4cCI6MjEwMjcwMzgzOX0.ZwPobRYXxiui0fKdPtnfLjpk6MDlP5C1cd4vDFHquTY";
 
 const SHOP_ITEMS = [
-    { id: "kid_helper", name: "เด็ก 67", desc: "+1 ครั้ง/วินาที", emoji: "🧒", baseCost: 20, costMult: 1.12, value: 1 },
-    { id: "cheerleader", name: "เชียร์ลีดเดอร์", desc: "+2 ครั้ง/วินาที", emoji: "📣", baseCost: 100, costMult: 1.14, value: 2 },
-    { id: "dance_instructor", name: "ครูสอนเต้น", desc: "+3 ครั้ง/วินาที", emoji: "💃", baseCost: 500, costMult: 1.16, value: 3 },
-    { id: "robot_arm", name: "แขนหุ่นยนต์", desc: "+20 ครั้ง/วินาที", emoji: "🦾", baseCost: 3000, costMult: 1.18, value: 20 },
-    { id: "ai_clone", name: "AI", desc: "+150 ครั้ง/วินาที", emoji: "🤖", baseCost: 25000, costMult: 1.20, value: 150 }
+    { id: "1", name: "เด็ก 67", desc: "+1 ครั้ง/วินาที", emoji: "🧒", baseCost: 20, costMult: 1.12, value: 1 },
+    { id: "2", name: "เชียร์ลีดเดอร์", desc: "+2 ครั้ง/วินาที", emoji: "📣", baseCost: 100, costMult: 1.14, value: 2 },
+    { id: "3", name: "ครูสอนเต้น", desc: "+3 ครั้ง/วินาที", emoji: "💃", baseCost: 500, costMult: 1.16, value: 3 },
+    { id: "4", name: "แขนหุ่นยนต์", desc: "+20 ครั้ง/วินาที", emoji: "🦾", baseCost: 3000, costMult: 1.18, value: 20 },
+    { id: "5", name: "AI", desc: "+150 ครั้ง/วินาที", emoji: "🤖", baseCost: 25000, costMult: 1.20, value: 150 }
 ];
 
 const MEME_LEVELS = [
@@ -31,7 +31,7 @@ class ClickerGame {
         this.supabaseClient = null;
 
         this.initSupabase();
-        this.cacheDOM();
+        this.initElements();
     }
 
     init() {
@@ -47,14 +47,14 @@ class ClickerGame {
     }
 
     initSupabase() {
-        if (window.supabase && SUPABASE_URL.indexOf("your-supabase") === -1) {
+        if (window.supabase && SUPABASE_URL) {
             try {
                 this.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             } catch(e) {}
         }
     }
 
-    cacheDOM() {
+    initElements() {
         this.elPlayerNameDisplay = document.getElementById('player-name-display');
         this.elBtnEditName = document.getElementById('btn-edit-name');
         this.elScore = document.getElementById('total-score');
