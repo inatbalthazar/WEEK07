@@ -174,7 +174,7 @@ button {
 .shop-list, .leaderboard-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .shop-item { display: flex; justify-content: space-between; align-items: center; }

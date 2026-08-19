@@ -25,6 +25,7 @@ export default function App() {
         </span>
       </p>
 
+
       {/* กล่อง input */}
       <textarea
         value={question}

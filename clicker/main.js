@@ -234,7 +234,7 @@ class ClickerGame {
 
             if (btn) btn.disabled = (this.score < cost);
             if (costEl) costEl.textContent = '🏆 ' + this.formatNum(cost);
-            if (ownedEl) ownedEl.textContent = count > 0 ? 'มีแล้ว: ' + count : '';
+            if (ownedEl) ownedEl.textContent = count > 0 ? 'มี: ' + count : '';
             if (card) card.classList.toggle('cant-afford', this.score < cost);
         }
     }
